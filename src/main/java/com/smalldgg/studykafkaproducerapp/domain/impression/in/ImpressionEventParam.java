@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ImpressionEventParam {
     private Long pid;
-    private String userId;
+    private Long userId;
     private Long amount;
     private String itemId;
 }

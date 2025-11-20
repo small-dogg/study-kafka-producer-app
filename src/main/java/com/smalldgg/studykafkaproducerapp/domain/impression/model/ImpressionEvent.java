@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImpressionEvent {
     private Long pid;
-    private String userId;
+    private Long userId;
     private Long amount;
     private String itemId;
     private LocalDateTime timestamp;

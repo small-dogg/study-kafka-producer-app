@@ -21,7 +21,7 @@ public class LogService {
             ImpressionEvent impressionEvent = ImpressionEvent.of(param);
             String json = objectMapper.writeValueAsString(impressionEvent);
             // key는 campaignId로
-            kafkaTemplate.send(TOPIC, param.getUserId(), json);
+            kafkaTemplate.send(TOPIC, String.valueOf(param.getUserId()), json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
