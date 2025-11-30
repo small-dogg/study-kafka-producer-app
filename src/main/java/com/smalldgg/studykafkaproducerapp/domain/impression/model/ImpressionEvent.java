@@ -15,7 +15,7 @@ public class ImpressionEvent {
     private Long pid;
     private Long userId;
     private Long amount;
-    private String itemId;
+    private Long itemId;
     private LocalDateTime timestamp;
 
     public static ImpressionEvent of(ImpressionEventParam param) {

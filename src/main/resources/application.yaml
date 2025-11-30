@@ -7,5 +7,12 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      transaction-id-prefix: tx
+      config:
+        enable-idempotence: true
+      retries: 2100000000
+    listener:
+      ack-mode: manual
 server:
   port: 8082

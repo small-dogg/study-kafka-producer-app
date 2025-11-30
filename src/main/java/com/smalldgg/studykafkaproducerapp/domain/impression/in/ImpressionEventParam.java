@@ -10,5 +10,5 @@ public class ImpressionEventParam {
     private Long pid;
     private Long userId;
     private Long amount;
-    private String itemId;
+    private Long itemId;
 }
