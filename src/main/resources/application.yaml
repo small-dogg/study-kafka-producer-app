@@ -1,6 +1,21 @@
 spring:
   application:
     name: study-kafka-producer-app
+  datasource:
+    hikari:
+      url: jdbc:postgresql://jerry.world:32222
+      driver-class-name: org.postgresql.Driver
+      username: test
+      password: test
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      ddl-auto: none
+    open-in-view: false
 
   kafka:
     bootstrap-servers: localhost:30092
