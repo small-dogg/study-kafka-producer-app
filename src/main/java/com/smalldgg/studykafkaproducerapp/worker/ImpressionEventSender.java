@@ -19,7 +19,7 @@ public class ImpressionEventSender {
     private final ImpressionEventRepository impressionEventRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Transactionalπ
+    @Transactional
     @Scheduled(fixedRate = 1000)
     public void sendImpressionEvent() {
         List<ImpressionEvent> impressionEvents = impressionEventRepository.findImpressionEventsWithSkipLock();
