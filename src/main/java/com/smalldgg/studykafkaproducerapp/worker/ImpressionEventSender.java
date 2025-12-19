@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ImpressionEventSender {
     private final ImpressionEventRepository impressionEventRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    @Transactionalπ
     @Scheduled(fixedRate = 1000)
     public void sendImpressionEvent() {
         List<ImpressionEvent> impressionEvents = impressionEventRepository.findImpressionEventsWithSkipLock();
