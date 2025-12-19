@@ -6,10 +6,7 @@ import com.smalldgg.studykafkaproducerapp.config.audit.BaseTimeEntity;
 import com.smalldgg.studykafkaproducerapp.domain.impression.model.ImpressionDto;
 import com.smalldgg.studykafkaproducerapp.event.enums.EventStatus;
 import com.smalldgg.studykafkaproducerapp.event.enums.EventType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -20,7 +17,9 @@ public class ImpressionEvent extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+    @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
+    @Enumerated(EnumType.STRING)
     private EventType eventType;
     private String payload;
     private Integer retryCount;
@@ -37,5 +36,16 @@ public class ImpressionEvent extends BaseTimeEntity {
         }
 
         return impressionEvent;
+    }
+
+    public void markSuccess() {
+        this.eventStatus = EventStatus.SUCCESS;
+    }
+
+    public void countUp() {
+        this.retryCount++;
+        if(this.retryCount >= 10) {
+            eventStatus = EventStatus.FAIL;
+        }
     }
 }

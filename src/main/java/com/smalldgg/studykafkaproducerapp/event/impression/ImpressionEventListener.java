@@ -1,5 +1,6 @@
 package com.smalldgg.studykafkaproducerapp.event.impression;
 
+import com.smalldgg.studykafkaproducerapp.event.enums.EventStatus;
 import com.smalldgg.studykafkaproducerapp.event.impression.entity.ImpressionEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,6 +20,16 @@ public class ImpressionEventListener {
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleImpressionEvent(ImpressionEvent impressionEvent) {
-        kafkaTemplate.send(TOPIC, String.valueOf(impressionEvent.getId()), impressionEvent.getPayload());
+        ImpressionEvent event = impressionEventRepository.findByIdAndEventStatus(impressionEvent.getId(), EventStatus.PENDING)
+                .orElseThrow(() -> new IllegalArgumentException("이벤트를 찾을 수 없습니다."));
+
+        kafkaTemplate.send(TOPIC, String.valueOf(event.getId()), impressionEvent.getPayload())
+                .whenComplete((res, ex) -> {
+                    if (ex == null) {
+                        event.markSuccess();
+                    } else {
+                        event.countUp();
+                    }
+                });
     }
 }
