@@ -2,11 +2,10 @@ spring:
   application:
     name: study-kafka-producer-app
   datasource:
-    hikari:
-      url: jdbc:postgresql://jerry.world:32222
-      driver-class-name: org.postgresql.Driver
-      username: test
-      password: test
+    url: jdbc:postgresql://jerry.world:32222/ad
+    driver-class-name: org.postgresql.Driver
+    username: test
+    password: test
   jpa:
     properties:
       hibernate:
@@ -22,10 +21,6 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: all
-      transaction-id-prefix: tx
-      config:
-        enable-idempotence: true
       retries: 2100000000
     listener:
       ack-mode: manual

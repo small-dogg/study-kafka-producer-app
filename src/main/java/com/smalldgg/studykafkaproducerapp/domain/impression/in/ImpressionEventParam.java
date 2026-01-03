@@ -1,5 +1,6 @@
 package com.smalldgg.studykafkaproducerapp.domain.impression.in;
 
+import com.smalldgg.studykafkaproducerapp.domain.impression.enums.DisplayTarget;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,8 +8,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ImpressionEventParam {
-    private Long pid;
-    private Long userId;
+    private Long groupId;
+    private Long partnerId;
+    private Long productId;
+    private DisplayTarget displayTarget;
+    private String displayId;
     private Long amount;
-    private Long itemId;
 }

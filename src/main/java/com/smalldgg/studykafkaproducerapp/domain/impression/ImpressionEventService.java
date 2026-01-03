@@ -1,7 +1,8 @@
-package com.smalldgg.studykafkaproducerapp.event.impression;
+package com.smalldgg.studykafkaproducerapp.domain.impression;
 
-import com.smalldgg.studykafkaproducerapp.domain.impression.model.ImpressionDto;
-import com.smalldgg.studykafkaproducerapp.event.impression.entity.ImpressionEvent;
+import com.smalldgg.studykafkaproducerapp.domain.impression.outbound.jpa.ImpressionEventRepository;
+import com.smalldgg.studykafkaproducerapp.domain.impression.aggregate.entity.ImpressionDto;
+import com.smalldgg.studykafkaproducerapp.domain.impression.aggregate.ImpressionEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,5 +1,6 @@
-package com.smalldgg.studykafkaproducerapp.domain.impression;
+package com.smalldgg.studykafkaproducerapp.domain.impression.inbound;
 
+import com.smalldgg.studykafkaproducerapp.domain.impression.LogService;
 import com.smalldgg.studykafkaproducerapp.domain.impression.in.ImpressionEventParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,13 @@ public class LogController {
     @RequestMapping("/impression")
     @PostMapping
     public void impression(@RequestBody ImpressionEventParam param) {
-        logService.sendClick(param);
+        logService.impression(param);
+
+    }
+    @RequestMapping("/click")
+    @PostMapping
+    public void click(@RequestBody ImpressionEventParam param) {
+        logService.impression(param);
 
     }
 

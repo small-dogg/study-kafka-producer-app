@@ -1,9 +1,8 @@
-package com.smalldgg.studykafkaproducerapp.event.impression.entity;
+package com.smalldgg.studykafkaproducerapp.domain.impression.aggregate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.uuid.Generators;
 import com.smalldgg.studykafkaproducerapp.config.audit.BaseTimeEntity;
-import com.smalldgg.studykafkaproducerapp.domain.impression.model.ImpressionDto;
+import com.smalldgg.studykafkaproducerapp.domain.impression.aggregate.entity.ImpressionDto;
 import com.smalldgg.studykafkaproducerapp.event.enums.EventStatus;
 import com.smalldgg.studykafkaproducerapp.event.enums.EventType;
 import jakarta.persistence.*;
@@ -13,10 +12,13 @@ import java.util.UUID;
 
 @Getter
 @Entity
+@Table(name="impression_event")
 public class ImpressionEvent extends BaseTimeEntity {
+    private static final String ID_PREFIX = "ad-impression";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private String id;
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
     @Enumerated(EnumType.STRING)
@@ -26,14 +28,10 @@ public class ImpressionEvent extends BaseTimeEntity {
 
     public static ImpressionEvent of(ImpressionDto impressionDto) {
         ImpressionEvent impressionEvent = new ImpressionEvent();
-        try {
-            impressionEvent.id = UUID.randomUUID();
-            impressionEvent.eventStatus = EventStatus.PENDING;
-            impressionEvent.eventType = EventType.IMPRESSION;
-            impressionEvent.payload = new ObjectMapper().writeValueAsString(impressionDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        impressionEvent.id = ID_PREFIX + Generators.defaultTimeBasedGenerator().generate().toString();
+        impressionEvent.eventStatus = EventStatus.PENDING;
+        impressionEvent.eventType = EventType.IMPRESSED;
+        impressionEvent.payload = impressionDto.retrievePayload();
 
         return impressionEvent;
     }
@@ -44,7 +42,7 @@ public class ImpressionEvent extends BaseTimeEntity {
 
     public void countUp() {
         this.retryCount++;
-        if(this.retryCount >= 10) {
+        if (this.retryCount >= 10) {
             eventStatus = EventStatus.FAIL;
         }
     }

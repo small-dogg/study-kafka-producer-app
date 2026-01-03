@@ -1,7 +1,7 @@
 package com.smalldgg.studykafkaproducerapp.domain.impression;
 
 import com.smalldgg.studykafkaproducerapp.domain.impression.in.ImpressionEventParam;
-import com.smalldgg.studykafkaproducerapp.domain.impression.model.ImpressionDto;
+import com.smalldgg.studykafkaproducerapp.domain.impression.aggregate.entity.ImpressionDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,7 +15,7 @@ public class LogService {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
-    public void sendClick(ImpressionEventParam param) {
+    public void impression(ImpressionEventParam param) {
 
         ImpressionDto impressionDto = ImpressionDto.of(param);
         /** Somthing to do */
